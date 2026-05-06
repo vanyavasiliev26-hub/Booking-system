@@ -8,14 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // Показать форму входа
     public function showLogin()
     {
         if (auth()->check()) return redirect('/')->with('info', 'Вы уже вошли в систему');
         return view('auth.login');
     }
 
-    // Обработка входа
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -35,14 +33,14 @@ class AuthController extends Controller
         return back()->withErrors(['email' => 'Неверный email или пароль'])->onlyInput('email');
     }
 
-    // Показать форму регистрации
+
     public function showRegister()
     {
         if (auth()->check()) return redirect('/')->with('info', 'Вы уже авторизованы');
         return view('auth.register');
     }
 
-    // Обработка регистрации
+
     public function register(Request $request)
     {
         $data = $request->validate([
@@ -68,7 +66,7 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Регистрация успешна!');
     }
 
-    // Выход
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -77,7 +75,7 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Вы вышли из системы');
     }
 
-    // Профиль
+
     public function profile()
     {
         if (!auth()->check()) return redirect()->route('login')->with('error', 'Сначала войдите');
